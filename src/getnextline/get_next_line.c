@@ -1,121 +1,67 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include "get_next_line.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sajansse <sajansse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/06 08:51:37 by mbastard          #+#    #+#             */
+/*   Updated: 2022/01/27 06:11:36 by sajansse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-char *ft_cropbuffer(char *tab, int ln)
+#include "../includes.h"
+
+char	*get_next_line(int fd)
 {
-	int i;
-    char *str;
+	char			*line;
+	static char		*mem = NULL;
+	char			buff[BUFFER_SIZE + 1];
 
-    str = ft_strdup(tab);
-
-	i = 0;
-    while(str[i])
-    {
-        if(str[i++] == '\n')
-        {
-            str = ft_substr(str, 0, i + ln);
-            return (str);
-        }
-    }
-    return (NULL);
+	line = NULL;
+	if (fd < 0 || read(fd, buff, 0) < 0 || BUFFER_SIZE < 1)
+		return (NULL);
+	buff[read(fd, buff, BUFFER_SIZE)] = '\0';
+	mem = s_ljoin(mem, buff, s_len(mem), s_len(buff));
+	while (s_len(buff) && !(s_chr(buff, '\n', 0)))
+	{
+		buff[read(fd, buff, BUFFER_SIZE)] = '\0';
+		mem = s_ljoin(mem, buff, s_len(mem), s_len(buff));
+	}
+	if (mem)
+	{
+		line = treat_line(mem, line);
+		mem = treat_mem(mem);
+	}
+	return (line);
 }
 
-char *cropstart(char *str)
+char	*treat_mem(char *mem)
 {
-    int i;
+	char			*new;
+	unsigned long	len;
 
-	i = 0;
-    while(str[i])
-    {
-        if(str[i++] == '\n')
-            return(ft_substr(str, i, (ft_strlen(str) - i + 1)));
-    }
-    return(str);
+	new = NULL;
+	len = s_len(s_chr(mem, '\n', 1));
+	if (len)
+	{
+		new = (char *)malloc(sizeof(char) * len + 1);
+		s_lcpy(new, s_chr(mem, '\n', 1), len + 1);
+	}
+	free(mem);
+	return (new);
 }
 
-int isend(char *str)
+char	*treat_line(char *mem, char *line)
 {
-    int i;
+	unsigned long	len;
 
-    i = 0;
-    while(str[i])
-    {
-		if(str[i++] == '\n')
-			return (0);
-    }
-	return (1);
+	line = NULL;
+	len = s_len(mem) - s_len(s_chr(mem, '\n', 1));
+	if (len)
+	{
+		line = (char *)malloc(sizeof(char) * len + 1);
+		s_lcpy(line, mem, len + 1);
+	}
+	return (line);
 }
-
-char *get_next_line(int fd)
-{
-    char BUFFER[BUFFER_SIZE + 1];
-    static char	*lines = NULL;
-    char *ptrsave = NULL;
-    char *ptrsavetmp = NULL;
-    int nbread = -2;
-	if (fd < 0 || BUFFER_SIZE < 1)
-        return (NULL);
-    
-	ptrsave = malloc(sizeof(char*));
-    ft_bzero(ptrsave, 2);
-    ptrsavetmp = malloc(sizeof(char*));
-    if(lines == NULL)
-    {
-        if((lines = malloc(sizeof(char*))) != NULL)
-		{
-			lines[0] = '\0';
-			ptrsave = ft_strdup(lines);
-		}
-    }
-    ft_bzero(&BUFFER[0], BUFFER_SIZE + 1);
-    while(ft_strchr(BUFFER, '\n') == 0 && (nbread = read(fd, BUFFER, BUFFER_SIZE)) > 0)
-    {  
-		    BUFFER[BUFFER_SIZE] = '\0';
-            ptrsave  = ft_strjoin(ptrsave, BUFFER);
-            ft_bzero(&BUFFER[0], BUFFER_SIZE);
-    }
-
-    if(isend(lines) == 0 && lines[0] != '\n')
-    {
-	    ptrsave = ft_strjoin(ptrsave, ft_cropbuffer(lines, 0));
-        ptrsavetmp = ft_strjoin(ptrsavetmp, ft_cropbuffer(lines, 1));
-        if(ft_strncmp(ptrsave, ptrsavetmp) == 0)
-            ptrsave = ft_substr(ptrsave, 0, ft_strlen(ptrsave) - 1);
-        free(ptrsavetmp);
-        lines = cropstart(lines);
-    }
-    else
-    {    
-        free(ptrsavetmp);
-        free(ptrsave);
-        if(lines[0] == '\n')
-        {
-            return ("\n");
-        }
-        if(lines[0] == '\0')
-        {
-            lines = NULL;
-        }
-        return (lines);   
-    }
-    return(ptrsave);
-}
-/*
-int main(void)
-{
-    int fd = open("test.txt", O_RDONLY);
-    char *str;
-    ft_putstr("TEST1:\n");
-    str = get_next_line(fd);
-    ft_putstr(str);
-    ft_putstr("TEST2:\n");
-    str = get_next_line(fd);
-    ft_putstr(str);
-    ft_putstr("TEST3:\n");
-    str = get_next_line(fd);
-}*/

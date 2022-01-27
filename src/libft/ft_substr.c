@@ -6,13 +6,13 @@
 /*   By: sajansse <sajansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 16:35:10 by sajansse          #+#    #+#             */
-/*   Updated: 2022/01/21 00:55:06 by sajansse         ###   ########.fr       */
+/*   Updated: 2022/01/27 05:46:21 by sajansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char *s, unsigned int start, size_t len)
 {
 	char	*str;
 	size_t	i;
@@ -31,6 +31,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (0);
 	while (++i < lenght)
 		str[i] = *(s + start + i);
+	free(s);
 	str[i] = '\0';
 	return (str);
 }

@@ -13,13 +13,13 @@ LIB_SRCS	=	ft_atoi.c			ft_bzero.c			ft_calloc.c			\
 				ft_strlcpy.c		ft_strlen.c			ft_strmapi.c		\
 				ft_strncmp.c		ft_strnstr.c		ft_strrchr.c		\
 				ft_strtrim.c		ft_substr.c			ft_tolower.c		\
-				ft_toupper.c		ft_printf/ft_printf.c			\
-				ft_printf/ft_utils.c
+				ft_toupper.c		ft_printf/ft_printf.c					\
+				ft_printf/ft_utils.c	ft_strcmp.c							\
 
 				LIB_DIR		=	libft/
 
 GNL_DIR		=	getnextline/
-GNL_SRCS	=	get_next_line.c		get_next_line_utils.c
+GNL_SRCS	=	get_next_line.c get_next_line_utils.c
 
 LIB_PATH	=	$(addprefix $(SRCS_DIR)$(LIB_DIR), $(LIB_SRCS))
 GNL_PATH	=	$(addprefix $(SRCS_DIR)$(GNL_DIR), $(GNL_SRCS))

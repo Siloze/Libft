@@ -1,22 +1,33 @@
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbastard <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/06 08:51:53 by mbastard          #+#    #+#             */
+/*   Updated: 2022/01/06 08:51:55 by mbastard         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE  1
+#ifndef GET_NEXT_LINE_H
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1
+# endif
+
+# define GET_NEXT_LINE_H
+# include <unistd.h>
+# include <stdlib.h>
+
+char	*get_next_line(int fd);
+char	*treat_mem(char *mem);
+char	*treat_line(char *mem, char *line);
+
+size_t	s_len(const char *s);
+size_t	s_lcpy(char *dst, const char *src, size_t dstsize);
+
+char	*s_chr(const char *s, int c, int next);
+char	*s_ljoin(char *s1, char *s2, size_t s1_len, size_t s2_len);
+
 #endif
-
-void *ft_memcpy (void *dst, const void *src, size_t n);
-char *ft_strdup(const char *s);
-size_t	ft_strlen(const char *s);
-char *ft_substr(char const *s, unsigned int start, size_t len);
-char *get_next_line(int fd);
-char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_strchr(const char *s, int c);
-void	ft_putstr(char *s);
-void	ft_bzero(void *s, size_t n);
-int	ft_strncmp(const char *s1, const char *s2);

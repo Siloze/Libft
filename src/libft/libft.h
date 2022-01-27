@@ -6,7 +6,7 @@
 /*   By: sajansse <sajansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 16:36:18 by sajansse          #+#    #+#             */
-/*   Updated: 2022/01/20 05:02:56 by sajansse         ###   ########.fr       */
+/*   Updated: 2022/01/27 05:46:25 by sajansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,13 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_memcmp( const void *s1, const void *s2, size_t n);
 int		ft_lstsize(t_list *lst);
 int		ft_atoi(const char *str);
+int		ft_strcmp(const char *s1, const char *s2);
 
 char	*ft_strchr(const char *s, int c);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 char	*ft_strdup(const char *s1);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_substr(char *s, unsigned int start, size_t len);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(const char *s, char c);
