@@ -28,6 +28,6 @@ int	ft_atoi(const char *str)
 		str++;
 	}
 	while (*str >= '0' && *str <= '9')
-		nb = (nb * 10 ) + *str++ - 48;
+		nb = (nb * 10) + *str++ - 48;
 	return (nb * sign);
 }
